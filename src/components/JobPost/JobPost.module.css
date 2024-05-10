@@ -1,0 +1,117 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+.container{
+    width: 60vw;
+    height:97vh;
+}
+.div{
+    margin:0 40px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: space-around;
+    justify-content: space-between;
+    align-items: center;
+}
+.input {
+  display: flex;
+  flex-direction: column;
+  justify-content:right;
+  padding: 2px;
+  margin: 8px;
+  width: 349px;
+  height: 18px;
+  top: 257px;
+  left: 60px;
+  gap: 5px;
+  border-radius: 2px;
+  border: 1px solid #6c6969;
+  font-size:9px;
+}
+.label{
+    font-family: DM Sans;
+font-size: 17.34px;
+font-weight: 400;
+line-height: 30.38px;
+text-align: left;
+}
+.button1{
+    width: 11px;
+    height: 15px;
+    top: 707px;
+    left: 90px;
+    background-color: #ef6969;
+    color: white;
+    font-family: DM Sans;
+    font-size: 15.79px;
+    font-weight: 700;
+    text-align: center;
+    border: none;
+    margin-left: 5px;
+    cursor: pointer;
+    display: flex;
+    align-content: flex-start;
+    flex-direction: column-reverse;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.button2{
+    width: 77px;
+    height: 23.92px;
+    background: #FFFFFF;
+    background: #C2C2C2;
+    font-family: DM Sans;
+    font-size: 15.79px;
+    font-weight: 700;
+    line-height: 40.03px;
+    text-align: center;
+    border: none;
+    margin: 5px;
+    border-radius: 5px;
+    border: 1px solid #463939;
+    cursor: pointer;
+    align-items: center;
+    display:flex;
+    justify-content: center;
+}
+.button3{
+    width: 77px;
+    display:flex;
+    align-items: center;
+    height: 23.92px;
+    color: white;
+    font-family: DM Sans;
+    font-size: 10.79px;
+    justify-content: center;
+    font-weight: 700;
+    line-height: 40.03px;
+    text-align: center;
+    border: none;
+    margin: 5px;
+    border-radius: 5px;
+    border: 1px solid #463939;
+    cursor: pointer;
+    background: #ED5353;
+}
+h2{
+    text-align: left;
+    font-family: DM Sans;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 57.61px;
+    margin-left: 40px;
+}
+h4{
+    font-family: DM Sans;
+    font-size: 29px;
+    font-weight: 500;
+    line-height: 57.61px;
+    text-align: center;
+    position: absolute;
+    right: 62px;
+    color: white;
+    top: 25px;
+
+}
