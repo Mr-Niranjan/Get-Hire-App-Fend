@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 import axios from "axios";
-const backendUrl = "http://localhost:5000/api/v1/auth";
+//const backendUrl = "http://localhost:5000/api/v1/auth";
+const backendUrl = "https://job-hire-app-bend-1.onrender.com"
 
 export const registerUser = async ({ name, email, password, mobile }) => {
   try {

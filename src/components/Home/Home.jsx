@@ -3,10 +3,13 @@ import React, { useState, useEffect } from "react";
 import { DEFAULT_SKILLS } from "../../utils/constant";
 import { useNavigate } from "react-router-dom";
 import { getAllJobs } from "../../api/job";
+import { CiSearch } from "react-icons/ci";
+import { MdOutlinePeople } from "react-icons/md";
+// import { MdKeyboardArrowDown } from "react-icons/md";
 import styles from "./Home.module.css";
 
 function Home() {
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
   const [skills, setSkills] = useState([]);
   const [jobs, setJobs] = useState([]);
   const [title, setTitle] = useState();
@@ -17,7 +20,7 @@ function Home() {
     setJobs(result?.data);
   };
 
-  const addSkill = (event) => {
+  const handleSkill = (event) => {
     const newArr = skills.filter((skill) => skill === event.target.value);
     if (!newArr.length) {
       setSkills([...skills, event.target.value]);
@@ -34,125 +37,164 @@ function Home() {
     console.log(fetchAllJobs);
   }, []);
 
-  const handleLogout = () =>{
+  const handleLogout = () => {
     localStorage.clear();
-    Navigate("/login");
-  }
+    navigate("/login");
+  };
   return (
     <>
       <div className={styles.header}>
-        <h3>JobFinder</h3>
-        <div className={styles.btnPart}>
+        {/* <img src={shape1} alt="shape1" className={styles.shape1} /> */}
+        {/* <img src={shape2} alt="shape2" className={styles.shape2} /> */}
+        <h3>Jobfinder</h3>
+        <div className={styles.btnGroup}>
           {token ? (
-            <button onClick={handleLogout} className={styles.login}>Logout</button>
+            <button className={styles.login} onClick={handleLogout}>
+              Logout
+            </button>
           ) : (
             <>
-              <button onClick={() => {Navigate ("/login")}} className={styles.login}>Login</button>
-              <button onClick={() => {Navigate ("/register")}} className={styles.register}>Register</button>
+              <a href="/login">
+                <button className={styles.login}>Login</button>
+              </a>
+              <a href="/register">
+                <button className={styles.register}>Register</button>
+              </a>
             </>
           )}
         </div>
       </div>
       <div className={styles.container}>
         <div className={styles.containerTop}>
-        <input/>
-        <div>
-          <label>Skill</label>
-          <select onChange={addSkill}>
-            <option disabled selected>
-              skills
+          <CiSearch />
+          <input
+            className={styles.inputTop}
+            value={title}
+            onChange={(event) => setTitle(event.target.value)}
+            type="text"
+            name="search"
+            placeholder="Type any job title"
+          />
+        </div>
+        <div className={styles.containerBottom}>
+          <select
+            onChange={handleSkill}
+            className={styles.inputSelect}
+            name="remote"
+          >
+            <option disabled selected value="">
+              Skills
             </option>
-            {DEFAULT_SKILLS.map((skill) => {
-              return <option key={skill}> {skill} </option>;
-            })}
+
+            {DEFAULT_SKILLS?.map((skill) => (
+              <option key={skill} value={skill}>
+                {skill}
+              </option>
+            ))}
           </select>
 
           {skills?.map((skill) => {
             return (
-              <span key={skill}>
-                {" "}
-                {skill}{" "}
+              <span className={styles.chip} key={skill}>
+                {skill}
                 <span
-                  onClick={() => {
-                    removeSkill(skill);
-                  }}
+                  onClick={() => removeSkill(skill)}
+                  className={styles.cross}
                 >
-                  X
+                  ╳
                 </span>
               </span>
             );
           })}
+          <div>
+            <button onClick={fetchAllJobs} className={styles.filter}>
+              Apply Filter
+            </button>
+            <button
+              onClick={() => navigate("/job-post")}
+              className={styles.job}
+            >
+              + Add Job
+            </button>
+            <button
+              onClick={() => {
+                setSkills([]);
+                setTitle("");
+                fetchAllJobs();
+              }}
+              className={styles.clear}
+            >
+              Clear
+            </button>
           </div>
         </div>
-
-        <button onClick={fetchAllJobs}>Apply Filter</button>
-        <button
-          onClick={() => {
-            Navigate("/job-post");
-          }}
-        >
-          + Add Job
-        </button>
-        <button
-          onClick={() => {
-            setSkills([]);
-            setTitle();
-            fetchAllJobs();
-          }}
-        >
-          Clear
-        </button>
       </div>
-      <div>
-        {jobs?.map((job) => {
-          return (
-            <div key={job._id}>
+      {/* <div className={styles.bottom}> */}
+      {jobs.map((data) => {
+        return (
+          <div key={data._id} className={styles.list}>
+            <div className={styles.listLeft}>
               <div>
-                <div>
-                  <img src={job?.logoUrl}></img>
-                </div>
-                <div>
-                  <p>
-                    {job?.title}
-                    <span>11-50</span>
-                    <span>₹ {job?.salary}</span>
-                    <span>{job?.location}</span>
-                  </p>
-                  <p>
-                    <span>{job?.jobType}</span>
-                    <span>{job?.duration}</span>
-                  </p>
-                </div>
+                <img className={styles.logo} src={data?.logoUrl} />
               </div>
-              <div>
-                {job?.skills?.map((skill) => {
-                  <span key={skill}> {skill} </span>;
+              <div className={styles.infoLeft}>
+                <p className={styles.position}>{data.title}</p>
+                <p className={styles.extraInfo}>
+                  <MdOutlinePeople
+                    style={{
+                      fontSize: "20px",
+                      color: "grey",
+                      marginTop: "2px",
+                    }}
+                  />
+
+                  <span className={styles.greyText}>11-50</span>
+                  <span className={styles.greyText}>₹ {data.salary}</span>
+                  <span className={styles.greyText}>{data.location}</span>
+                </p>
+                <p className={styles.extraInfo}>
+                  <span className={styles.redText}>{data.remote}</span>
+                  <span className={styles.redText}>{data.jobType}</span>
+                </p>
+              </div>
+            </div>
+            <div>
+              <div className={styles.skills}>
+                {data?.skills?.map((skill) => {
+                  return (
+                    <span className={styles.skill} key={skill}>
+                      {skill}
+                    </span>
+                  );
                 })}
               </div>
-              <div>
+              <div className={styles.btnGroup2}>
                 {token && (
                   <button
                     onClick={() => {
-                      Navigate("/job-post", {
+                      navigate("/job-post", {
                         state: {
-                          jobDetails: job,
+                          jobDetails: data,
                           edit: true,
                         },
                       });
                     }}
+                    className={styles.view}
                   >
-                    Edit Job
+                    Edit Jobs
                   </button>
                 )}
-                <button onClick={() => Navigate(`/job-details/${job._id}`)}>
-                  {" "}
-                  View details{" "}
+                <button
+                  onClick={() => navigate(`/job-details/${data._id}`)}
+                  className={styles.view}
+                >
+                  View Details
                 </button>
               </div>
             </div>
-          );
-        })}
-      </div>
+          </div>
+        );
+      })}
     </>
   );
 }

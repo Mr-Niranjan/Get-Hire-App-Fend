@@ -16,7 +16,7 @@ import { useLocation } from "react-router-dom";
    state: {
         jobDetails: jobDetails,      // Available in the JobDetails.jsx file
         edit: true,
-          },                            
+          // },                            
 1. import useLocation from "react-router-dom";
 2. const { state } = useLocation();
 3. console.log(state);

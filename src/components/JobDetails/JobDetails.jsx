@@ -5,12 +5,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { jobPostDetailsById } from "../../api/job";
+import styles from "./JobDetails.module.css";
 
 function JobDetails() {
   const navigate = useNavigate();
   const { id } = useParams();
   // const navigate = useNavigate();
-  const [jobDetails, setJobDetails] = useState({});
+  const [jobDetails , setJobDetails] = useState({});
   const [isLoggedIn] = useState(!!localStorage.getItem("token")); //Shorthand rule to avoid Ternary Operator
   const [isEditable, setIsEditable] = useState(false);
 
@@ -29,87 +30,159 @@ function JobDetails() {
 
   return (
     <>
-      {jobDetails ? (
-        <div>
-          <p>Job Finder</p>
-          <div>
-            {isLoggedIn ? (
-              <button>Logout</button>
-            ) : (
-              <div>
-                <button>Login</button>
-                <button>Register</button>
-              </div>
-            )}
-          </div>
-          <div>
-            <p>{jobDetails?.companyName}</p>
-          </div>
-          <div>
-            <p>
-              {jobDetails?.jobType}
-              {jobDetails?.logoUrl}
-            </p>
-          </div>
-          <div>
-            <p>{jobDetails?.title}</p>
-            <div>
-              {isLoggedIn && isEditable && (
-                <button
-                  onClick={() => {
-                    navigate("/job-post", {
-                      state: {
-                        jobDetails: jobDetails,
-                        edit: true,
-                      },
-                    });
-                  }}
+    {jobDetails ? (
+        <div className={styles.body}>
+            <div className={styles.nav}>
+                <p className={styles.navText}>Jobfinder</p>
+                <div className={styles.btnGrp}>
+                    {isLoggedIn ? (
+                        <button
+                            // onClick={logout}
+                            className={styles.register}
+                        >
+                            Logout
+                        </button>
+                    ) : (
+                        <>
+                            <button className={styles.login}>
+                                Login
+                            </button>
+                            <button className={styles.register}>
+                                Register
+                            </button>
+                        </>
+                    )}
+                </div>
+            </div>
+            <div className={styles.container}>
+                <p className={styles.containerText}>
+                    {jobDetails?.companyName}
+                </p>
+            </div>
+            <div className={styles.containerBottom}>
+                <div className={styles.preHeading}>
+                    <p className={styles.lightText}>
+                        {jobDetails?.posted} • {jobDetails.jobType}
+                    </p>
+                </div>
+                <div
+                    style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                    }}
                 >
-                  Edit Job
-                </button>
-              )}
-            </div>
-          </div>
-          <div>
-            <p>{jobDetails?.location}</p>
-          </div>
-          <div>
-            <div>
-              <p>stipend</p>
-              <p>{jobDetails?.salary}</p>
-            </div>
-            <div>
-              <p>Duration</p>
-              <p>{jobDetails?.duration}</p>
-            </div>
-          </div>
-          <div>
-            <h2>About Company</h2>
-            <p>{jobDetails?.aboutCompany}</p>
-          </div>
-          <div>
-            <h2>About the job/internship</h2>
-            <p>{jobDetails?.description}</p>
-          </div>
-          <div>
-            <h2>Skills Required</h2>
-            {jobDetails?.skills?.map((skill) => (
-              <p key={skill}>{skill}</p>
-            ))}
-          </div>
-          <div>
-            <h2>Additional Information</h2>
-            <p>{jobDetails?.information}</p>
-          </div>
-        </div>
-      ) : (
-        <> </>
-      )}
+                    <div className={styles.heading}>
+                        <div>
+                            <p
+                                style={{
+                                    margin: "0px",
+                                }}
+                                className={styles.boldText}
+                            >
+                                {jobDetails.title}
+                            </p>
+                            <p className={styles.locationText}>
+                                {jobDetails.location}
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        {isLoggedIn && isEditable && (
+                            <button
+                                onClick={() => {
+                                    navigate("/job-post", {
+                                        state: {
+                                            jobDetails: jobDetails,
+                                            edit: true,
+                                        },
+                                    });
+                                }}
+                                className={styles.edit}
+                            >
+                                Edit Job
+                            </button>
+                        )}
+                    </div>
+                </div>
 
-      {/* <div>
-      {id}
-    </div> */}
-    </>
+                <div className={styles.perks}>
+                    <div>
+                        <div
+                            style={{
+                                display: "flex",
+                                gap: "5px",
+                                alignItems: "center",
+                                width: "10vw",
+                            }}
+                        >
+                            {/* <span
+                                style={{
+                                    color: "gray",
+                                }}
+                                class="material-symbols-outlined"
+                            >
+                                universal_currency_alt
+                            </span> */}
+                            <p className={styles.lightText}>Stipend</p>
+                        </div>
+                        <p className={styles.lightText2}>
+                            Rs.{jobDetails.salary}/month
+                        </p>
+                    </div>
+                    <div>
+                        <div
+                            style={{
+                                display: "flex",
+                                gap: "5px",
+                                alignItems: "center",
+                                width: "10vw",
+                            }}
+                        >
+                            {/* <span
+                                style={{
+                                    color: "gray",
+                                }}
+                                class="material-symbols-outlined"
+                            >
+                                calendar_today
+                            </span> */}
+
+                            <p className={styles.lightText}>Duration</p>
+                        </div>
+
+                        <p className={styles.lightText2}>
+                            {jobDetails.duration}
+                        </p>
+                    </div>
+                </div>
+                <div className={styles.info}>
+                    <h2>About Company</h2>
+                    <p className={styles.lightText}>
+                        {jobDetails.about}
+                    </p>
+                </div>
+                <div className={styles.info}>
+                    <h2>Skill(s) Required</h2>
+                    {jobDetails?.skills?.map((skill) => {
+                        return (
+                            <p className={styles.skill} key={skill}>
+                                {skill}
+                            </p>
+                        );
+                    })}
+                </div>
+                <div className={styles.info}>
+                    <h2>Additional Information</h2>
+                    <p className={styles.lightText}>
+                        {jobDetails.description}
+                    </p>
+                </div>
+            </div>
+        </div>
+    ) : (
+        <></>
+    )}
+</>
   );
 }
 
