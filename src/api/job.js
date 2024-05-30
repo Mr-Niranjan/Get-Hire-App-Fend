@@ -41,7 +41,7 @@ export const updateJobPostById = async (jobPostId, updatedFormDatA) => {
 export const getAllJobs = async (filter) => {
   try {
     const userId = JSON.parse(localStorage.getItem("userId")) || "";
-    const apiUrl = `${backendUrl}/all/?searchQuery=${filter?.title || ""}&skills=${filter?.skills || ""} `;  // # all/${userId}?searchQuery.......
+    const apiUrl = `${backendUrl}/api/v1/jobs/all/?searchQuery=${filter?.title || ""}&skills=${filter?.skills || ""} `;  // # all/${userId}?searchQuery.......
     // const apiUrl = `http://localhost:5000/api/v1/jobs/all?searchQuery=&&skills=`;
     const response = await axios.get(apiUrl)
     return response?.data;
